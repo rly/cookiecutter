@@ -9,11 +9,14 @@ cookiecutter.replay.
 from __future__ import unicode_literals
 
 import json
+import logging
 import os
 
 import six
 
 from cookiecutter.utils import make_sure_path_exists
+
+logger = logging.getLogger(__name__)
 
 
 def get_file_name(replay_dir, template_name):
@@ -38,8 +41,10 @@ def dump(replay_dir, template_name, context):
 
     replay_file = get_file_name(replay_dir, template_name)
 
+    logger.debug("Dumping context to replay file {}".format(replay_file))
     with open(replay_file, "w") as outfile:
         json.dump(context, outfile)
+        logger.debug("Context written to replay file {}".format(replay_file))
 
 
 def load(replay_dir, template_name):
@@ -49,6 +54,7 @@ def load(replay_dir, template_name):
 
     replay_file = get_file_name(replay_dir, template_name)
 
+    logger.debug("Reading context from replay file {}".format(replay_file))
     with open(replay_file, "r") as infile:
         context = json.load(infile)
 
